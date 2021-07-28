@@ -1,0 +1,31 @@
+{
+	"name": "knowledge-database",
+	"version": "1.0.0",
+	"description": "Database and reference tool",
+	"main": "server/server.js",
+	"scripts": {
+		"start": "if-env NODE_ENV=production && yarn start:prod || yarn start:dev",
+		"start:prod": "cd server && yarn start",
+		"start:dev": "concurrently \"cd server && yarn run watch\" \"cd client && npm start\"",
+		"install": "cd server && yarn install && cd ../client && yarn install",
+		"seed": "cd server && yarn run seed",
+		"heroku-postbuild": "cd client && yarn build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ZQWhiting/knowledge-database.git"
+	},
+	"author": "ZQWhiting <zach.whiting@icloud.com>",
+	"keywords": [],
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/ZQWhiting/knowledge-database/issues"
+	},
+	"homepage": "https://github.com/ZQWhiting/knowledge-database#readme",
+	"dependencies": {
+		"if-env": "^1.0.4"
+	},
+	"devDependencies": {
+		"concurrently": "^5.3.0"
+	}
+}

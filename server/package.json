@@ -1,0 +1,20 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"main": "server.js",
+	"scripts": {
+		"start": "yarn server.js",
+		"watch": "nodemon",
+		"seed": "yarn config/seeds.js"
+	},
+	"author": "ZQWhiting <zach.whiting@icloud.com>",
+	"license": "MIT",
+	"dependencies": {
+		"apollo-server-express": "^3.0.2",
+		"express": "^4.17.1",
+		"mongoose": "^5.13.4"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.12"
+	}
+}

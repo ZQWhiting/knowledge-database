@@ -19,6 +19,20 @@ const resolvers = {
 
 			return file;
 		},
+		updateFile: async (parent, { input }) => {
+			const file = await File.findOneAndUpdate(
+				{ name: input.name },
+				input,
+				{ new: true }
+			);
+
+			return file;
+		},
+		deleteFile: async (parent, { name }) => {
+			const file = await File.findOneAndDelete({ name });
+
+			return file;
+		},
 	},
 };
 

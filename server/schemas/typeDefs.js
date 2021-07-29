@@ -19,6 +19,8 @@ const typeDefs = gql`
 	}
 	type Mutation {
 		createFile(input: FileInput): File
+		updateFile(input: FileInput): File
+		deleteFile(name: String): File
 	}
 `;
 

@@ -6,10 +6,7 @@ const fileSchema = new Schema({
 	name: String,
 	type: String,
 	content: String,
-	meta: {
-		type: Map,
-		of: String,
-	},
+	meta: [String],
 });
 
 const File = mongoose.model('File', fileSchema);

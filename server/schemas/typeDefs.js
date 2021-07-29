@@ -1,14 +1,27 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+    type KeyValue {
+        key: String!
+        value: Boolean!
+    }
 	type File {
 		name: String
 		type: String
 		content: String
 		meta: [String]
 	}
+    input FileInput {
+        name: String
+		type: String
+		content: String
+		meta: [String]
+    }
 	type Query {
-		files: [File]
+		allFiles: [File]
+	}
+	type Mutation {
+		createFile(input: FileInput): File
 	}
 `;
 

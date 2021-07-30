@@ -7,6 +7,7 @@ const tagSchema = new Schema({
 		type: String,
 		unique: true,
 	},
+	parent: { type: Schema.Types.ObjectId, ref: 'Tag', default: null },
 });
 
 const Tag = mongoose.model('Tag', tagSchema);

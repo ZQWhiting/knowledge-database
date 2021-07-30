@@ -4,6 +4,7 @@ const typeDefs = gql`
 	type Tag {
 		_id: ID
 		name: String
+		parent: Tag
 	}
 	type File {
 		_id: ID
@@ -24,18 +25,22 @@ const typeDefs = gql`
 		content: String
 		tags: [ID]
 	}
+	input updateTagInput {
+		name: String
+		parent: ID
+	}
 	type Query {
 		allFiles: [File]
 		allTags: [Tag]
 		tagsFiles(query: [ID]): [File]
 	}
 	type Mutation {
-		createTag(name: String!): Tag
-		updateTag(_id: ID!, name: String!): Tag
-		deleteTag(_id: ID!): Tag
-		createFile(input: createFileInput!): File
-		updateFile(_id: ID!, input: updateFileInput!): File
-		deleteFile(_id: ID!): File
+		createTag(name: String!, parent: ID): Tag
+		updateTag(id: ID!, name: String, parent: ID): Tag
+		deleteTag(id: ID!): Tag
+		createFile(name: String!, type: String!, content: String, tags: [ID]): File
+		updateFile(id: ID!, name: String, type: String, content: String, tags: [ID]): File
+		deleteFile(id: ID!): File
 	}
 `;
 

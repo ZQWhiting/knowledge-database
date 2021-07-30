@@ -19,13 +19,16 @@ export const GET_ALL_TAGS = gql`
 		allTags {
 			_id
 			name
+			parent {
+				_id
+			}
 		}
 	}
 `;
 
 export const GET_TAGGED_FILES = gql`
-	query tagFiles($tagsFilesQuery: [ID]) {
-		tagsFiles(query: $tagsFilesQuery) {
+	query tagFiles($query: [ID]) {
+		tagsFiles(query: $query) {
 			_id
 			name
 			type

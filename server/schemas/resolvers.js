@@ -12,7 +12,7 @@ const resolvers = {
 
 			return files;
 		},
-		tagsFiles: async (parent, { query }) => {
+		tagsFiles: async (p, { query }) => {
 			const files = await File.find()
 				.where('tags')
 				.all(query)
@@ -22,37 +22,38 @@ const resolvers = {
 		},
 	},
 	Mutation: {
-		createTag: async (parent, { name }) => {
-			const tag = await Tag.create({ name });
+		createTag: async (p, input) => {
+			const tag = await Tag.create(input);
 
-			return tag;
+			return await Tag.populate(tag, { path: 'parent' });
 		},
-		updateTag: async (parent, { id, name }) => {
+		updateTag: async (p, input) => {
 			const tag = await Tag.findByIdAndUpdate(
-				id,
-				{ name },
+				input.id,
+				{ $set: input },
 				{ new: true }
 			);
 
-			return tag;
+			return await Tag.populate(tag, { path: 'parent' });
 		},
-		deleteTag: async (parent, { id }) => {
+		deleteTag: async (p, { id }) => {
 			const tag = await Tag.findByIdAndDelete(id);
+			await Tag.updateMany({ parent: tag._id }, { parent: tag.parent });
 
 			return tag;
 		},
-		createFile: async (parent, { input }) => {
+		createFile: async (p, input) => {
 			const file = await File.create(input);
 
 			return file;
 		},
-		updateFile: async (parent, { id, input }) => {
-			const file = await File.findByIdAndUpdate(id, input, {
+		updateFile: async (p, input) => {
+			const file = await File.findByIdAndUpdate(input.id, input, {
 				new: true,
 			}).populate('tags');
 			return file;
 		},
-		deleteFile: async (parent, { id }) => {
+		deleteFile: async (p, { id }) => {
 			const file = await File.findByIdAndDelete(id).populate('tags');
 
 			return file;

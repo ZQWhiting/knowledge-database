@@ -1,19 +1,25 @@
 import gql from 'graphql-tag';
 
 export const CREATE_TAG = gql`
-	mutation createTag($name: String!) {
-		createTag(name: $name) {
+	mutation createTag($name: String!, $parent: ID) {
+		createTag(name: $name, parent: $parent) {
 			_id
 			name
+			parent {
+				_id
+			}
 		}
 	}
 `;
 
 export const UPDATE_TAG = gql`
-	mutation updateTag($name: String!, $id: ID!) {
-		updateTag(name: $name, id: $id) {
+	mutation updateTag($id: ID!, $name: String, $parent: ID) {
+		updateTag(id: $id, name: $name, parent: $parent) {
 			_id
 			name
+			parent {
+				_id
+			}
 		}
 	}
 `;
@@ -23,19 +29,21 @@ export const DELETE_TAG = gql`
 		deleteTag(id: $id) {
 			_id
 			name
+			parent {
+				_id
+			}
 		}
 	}
 `;
 
 export const CREATE_FILE = gql`
-	mutation createFile($input: createFileInput!) {
-		createFile(input: $input) {
+	mutation createFile($name: String!, $type: String!, $content: String, $tags: [ID]) {
+		createFile(name: $name, type: $type, content: $content, tags: $tags) {
 			_id
 			name
 			type
 			content
 			tags {
-				_id
 				name
 			}
 		}
@@ -43,17 +51,13 @@ export const CREATE_FILE = gql`
 `;
 
 export const UPDATE_FILE = gql`
-	mutation updateFile(
-		$id: ID!
-		$input: updateFileInput!
-	) {
-		updateFile(id: $id, input: $input) {
+	mutation updateFile($id: ID!, $name: String, $type: String, $content: String, $tags: [ID]) {
+		updateFile(id: $id, name: $name, type: $type, content: $content, tags: $tags) {
 			_id
 			name
 			type
 			content
 			tags {
-				_id
 				name
 			}
 		}
@@ -68,7 +72,6 @@ export const DELETE_FILE = gql`
 			type
 			content
 			tags {
-				_id
 				name
 			}
 		}

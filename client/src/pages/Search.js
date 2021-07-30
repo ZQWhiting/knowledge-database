@@ -1,5 +1,11 @@
+import TagForm from '../components/TagForm';
+
 function Search() {
-	return null;
+	return (
+		<>
+			<TagForm></TagForm>
+		</>
+	);
 }
 
 export default Search;

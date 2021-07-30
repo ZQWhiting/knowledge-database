@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const QUERY_ALL_FILES = gql`
+export const GET_ALL_FILES = gql`
 	query files {
 		allFiles {
 			_id
@@ -14,7 +14,7 @@ export const QUERY_ALL_FILES = gql`
 	}
 `;
 
-export const QUERY_ALL_TAGS = gql`
+export const GET_ALL_TAGS = gql`
 	query tags {
 		allTags {
 			_id
@@ -23,7 +23,7 @@ export const QUERY_ALL_TAGS = gql`
 	}
 `;
 
-export const QUERY_TAGGED_FILES = gql`
+export const GET_TAGGED_FILES = gql`
 	query tagFiles($tagsFilesQuery: [ID]) {
 		tagsFiles(query: $tagsFilesQuery) {
 			_id

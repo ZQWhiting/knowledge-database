@@ -1,0 +1,13 @@
+.add-tag-btn {
+    color: rgb(92, 92, 255);
+
+    &:hover {
+        color: blue;
+    }
+}
+.input {
+    width: 10ch;
+}
+.error {
+    background-color: red;
+}

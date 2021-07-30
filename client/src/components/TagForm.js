@@ -3,40 +3,35 @@ import { useMutation } from '@apollo/react-hooks';
 import { CREATE_TAG } from '../utils/mutations';
 
 function TagForm() {
-	const [formState, setFormState] = useState({ name: '' });
+	const [name, setName] = useState('');
 	const [createTag, { error }] = useMutation(CREATE_TAG);
-
-	const handleFormChange = (event) => {
-		const { key, value } = event.target;
-		setFormState({
-			...formState,
-			[key]: value,
-		});
-	};
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const mutationReponse = await createTag({
+			await createTag({
 				variables: {
-					name: formState.name.trim(),
+					name: name.trim(),
 				},
 			});
+
+			setName('');
 		} catch (e) {
-			console.error(e);
+			alert(error);
 		}
 	};
 
 	return (
 		<form onSubmit={handleFormSubmit}>
-			<label for='name'></label>
 			<input
 				type='text'
 				name='name'
 				id='tag-name'
-				onChange={handleFormChange}
+				onChange={(e) => setName(e.target.value)}
+				value={name}
+				placeholder='new tag'
 			></input>
-			<button type='submit' />
+			<button type='submit'>Submit</button>
 		</form>
 	);
 }

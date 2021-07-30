@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const CREATE_TAG = gql`
-	mutation createTag($createTagName: String!) {
-		createTag(name: $createTagName) {
+	mutation createTag($name: String!) {
+		createTag(name: $name) {
 			_id
 			name
 		}
@@ -10,8 +10,8 @@ export const CREATE_TAG = gql`
 `;
 
 export const UPDATE_TAG = gql`
-	mutation updateTag($updateTagName: String!, $updateTagId: ID!) {
-		updateTag(name: $updateTagName, _id: $updateTagId) {
+	mutation updateTag($name: String!, $id: ID!) {
+		updateTag(name: $name, id: $id) {
 			_id
 			name
 		}
@@ -19,8 +19,8 @@ export const UPDATE_TAG = gql`
 `;
 
 export const DELETE_TAG = gql`
-	mutation deleteTag($deleteTagId: ID!) {
-		deleteTag(_id: $deleteTagId) {
+	mutation deleteTag($id: ID!) {
+		deleteTag(id: $id) {
 			_id
 			name
 		}
@@ -28,8 +28,8 @@ export const DELETE_TAG = gql`
 `;
 
 export const CREATE_FILE = gql`
-	mutation createFile($createFileInput: createFileInput!) {
-		createFile(input: $createFileInput) {
+	mutation createFile($input: createFileInput!) {
+		createFile(input: $input) {
 			_id
 			name
 			type
@@ -44,10 +44,10 @@ export const CREATE_FILE = gql`
 
 export const UPDATE_FILE = gql`
 	mutation updateFile(
-		$updateFileId: ID!
-		$updateFileInput: updateFileInput!
+		$id: ID!
+		$input: updateFileInput!
 	) {
-		updateFile(_id: $updateFileId, input: $updateFileInput) {
+		updateFile(id: $id, input: $input) {
 			_id
 			name
 			type
@@ -61,8 +61,8 @@ export const UPDATE_FILE = gql`
 `;
 
 export const DELETE_FILE = gql`
-	mutation deleteFile($deleteFileId: ID!) {
-		deleteFile(_id: $deleteFileId) {
+	mutation deleteFile($id: ID!) {
+		deleteFile(id: $id) {
 			_id
 			name
 			type

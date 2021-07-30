@@ -27,17 +27,17 @@ const resolvers = {
 
 			return tag;
 		},
-		updateTag: async (parent, { _id, name }) => {
+		updateTag: async (parent, { id, name }) => {
 			const tag = await Tag.findByIdAndUpdate(
-				_id,
+				id,
 				{ name },
 				{ new: true }
 			);
 
 			return tag;
 		},
-		deleteTag: async (parent, { _id }) => {
-			const tag = await Tag.findByIdAndDelete(_id);
+		deleteTag: async (parent, { id }) => {
+			const tag = await Tag.findByIdAndDelete(id);
 
 			return tag;
 		},
@@ -46,14 +46,14 @@ const resolvers = {
 
 			return file;
 		},
-		updateFile: async (parent, { _id, input }) => {
-			const file = await File.findByIdAndUpdate(_id, input, {
+		updateFile: async (parent, { id, input }) => {
+			const file = await File.findByIdAndUpdate(id, input, {
 				new: true,
 			}).populate('tags');
 			return file;
 		},
-		deleteFile: async (parent, { _id }) => {
-			const file = await File.findByIdAndDelete(_id).populate('tags');
+		deleteFile: async (parent, { id }) => {
+			const file = await File.findByIdAndDelete(id).populate('tags');
 
 			return file;
 		},

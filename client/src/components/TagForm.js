@@ -4,25 +4,24 @@ import { CREATE_TAG } from '../utils/mutations';
 
 function TagForm() {
 	const [name, setName] = useState('');
-	const [createTag, { error }] = useMutation(CREATE_TAG);
+	const [createTag] = useMutation(CREATE_TAG, {
+		onCompleted: () => {
+            setName('')
+            console.log('Tag successfully saved.')
+        },
+		onError: (e) => {
+            console.error(e.message)
+		},
+		variables: { name: name.trim() },
+	});
 
-	const handleFormSubmit = async (event) => {
+	const onSubmit = (event) => {
 		event.preventDefault();
-		try {
-			await createTag({
-				variables: {
-					name: name.trim(),
-				},
-			});
-
-			setName('');
-		} catch (e) {
-			alert(error);
-		}
+		createTag();
 	};
 
 	return (
-		<form onSubmit={handleFormSubmit}>
+		<form onSubmit={onSubmit}>
 			<input
 				type='text'
 				name='name'

@@ -1,26 +1,41 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-	type File {
+	type Tag {
+		_id: ID
 		name: String
-		type: String
-		content: String
-		meta: [String]
 	}
-	input FileInput {
+	type File {
+		_id: ID
 		name: String
 		type: String
 		content: String
-		meta: [String]
+		tags: [Tag]
+	}
+	input createFileInput {
+		name: String!
+		type: String!
+		content: String
+		tags: [ID]
+	}
+	input updateFileInput {
+		name: String
+		type: String
+		content: String
+		tags: [ID]
 	}
 	type Query {
 		allFiles: [File]
-		metaFiles(query: [String]): [File]
+		allTags: [Tag]
+		tagsFiles(query: [ID]): [File]
 	}
 	type Mutation {
-		createFile(input: FileInput): File
-		updateFile(input: FileInput): File
-		deleteFile(name: String): File
+		createTag(name: String!): Tag
+		updateTag(_id: ID!, name: String!): Tag
+		deleteTag(_id: ID!): Tag
+		createFile(input: createFileInput!): File
+		updateFile(_id: ID!, input: updateFileInput!): File
+		deleteFile(_id: ID!): File
 	}
 `;
 

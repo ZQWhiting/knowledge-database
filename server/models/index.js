@@ -1,3 +1,4 @@
 const File = require('./File');
+const Tag =  require('./Tag');;
 
-module.exports = { File };
+module.exports = { File, Tag };

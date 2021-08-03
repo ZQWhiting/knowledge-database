@@ -6,7 +6,7 @@ import { CREATE_TAG } from '../../controllers/tag';
 import classNames from 'classnames';
 import './style.scss';
 
-function CreateTag() {
+function CreateTag({ id = null }) {
 	const [active, setActive] = useState(false);
 	const [inputError, setInputError] = useState(false);
 	const [name, setName] = useState('');
@@ -20,7 +20,7 @@ function CreateTag() {
 			setInputError(true);
 			console.error(e.message);
 		},
-		variables: { name: name.trim() },
+		variables: { name: name.trim(), parent_id: id },
 	});
 
 	const submitInput = () => {
@@ -32,27 +32,31 @@ function CreateTag() {
 		setActive(true);
 	};
 
-	return active ? (
-		<input
-			onBlur={submitInput}
-			type='text'
-			name='name'
-			id='tag-name'
-			onChange={(e) => setName(e.target.value)}
-			value={name}
-			placeholder='new tag'
-			onFocus={() => setInputError(false)}
-			autoFocus
-			className={classNames('input', {
-				error: inputError ? true : false,
-			})}
-		></input>
-	) : (
-		<FontAwesomeIcon
-			icon={faPlusCircle}
-			className={classNames('add-tag-btn')}
-			onClick={activateForm}
-		/>
+	return (
+		<div className={classNames(id && 'tab')}>
+			{active ? (
+				<input
+					onBlur={submitInput}
+					type='text'
+					name='name'
+					id='tag-name'
+					onChange={(e) => setName(e.target.value)}
+					value={name}
+					placeholder='new tag'
+					onFocus={() => setInputError(false)}
+					autoFocus
+					className={classNames('input', {
+						error: inputError ? true : false,
+					})}
+				></input>
+			) : (
+				<FontAwesomeIcon
+					icon={faPlusCircle}
+					className={classNames('add-tag-btn')}
+					onClick={activateForm}
+				/>
+			)}
+		</div>
 	);
 }
 

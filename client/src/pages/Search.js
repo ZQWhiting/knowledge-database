@@ -1,9 +1,11 @@
-import CreateTag from '../components/CreateTag/';
+import CreateTag from '../components/CreateTag';
+import TagList from '../components/TagList';
 
 function Search() {
 	return (
 		<>
-			<CreateTag></CreateTag>
+			<TagList/>
+			<CreateTag/>
 		</>
 	);
 }

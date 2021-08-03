@@ -6,3 +6,15 @@ export const TAG_FIELDS = gql`
 		name
 	}
 `;
+
+export const FILE_FIELDS = gql`
+	fragment FileFields on File {
+		_id
+		name
+		type
+		content
+		tags {
+			name
+		}
+	}
+`;

@@ -19,8 +19,14 @@ const recursive_tag_return = `{
 
 export const GET_ALL_TAGS = gql`
 	${TAG_FIELDS}
-	query tags {
-		tags ${recursive_tag_return}
+	query allTags {
+		allTags ${recursive_tag_return}
+	}
+`;
+export const GET_TAGS = gql`
+	${TAG_FIELDS}
+	query tags($parent_id: ID) {
+		tags(parent_id: $parent_id) ${recursive_tag_return}
 	}
 `;
 
@@ -33,8 +39,8 @@ export const GET_TAG = gql`
 
 export const CREATE_TAG = gql`
 	${TAG_FIELDS}
-	mutation createTag($name: String!) {
-		createTag(name: $name) {
+	mutation createTag($name: String!, $parent_id: ID) {
+		createTag(name: $name, parent_id: $parent_id) {
 			...TagFields
 		}
 	}

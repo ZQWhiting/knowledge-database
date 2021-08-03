@@ -8,13 +8,14 @@ const tagSchema = new Schema({
 		unique: true,
 	},
 	children: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
+	parent: { type: Schema.Types.ObjectId, ref: 'Tag', default: null },
+});
+
+tagSchema.pre('deleteOne', { document: true }, async function () {
+	const tags = await Tag.find({ _id: { $in: this.children } });
+	tags.forEach((tag) => tag.deleteOne());
 });
 
 const Tag = mongoose.model('Tag', tagSchema);
-
-tagSchema.pre('remove', function (doc) {
-	// Remove all the docs that refers
-	Tag.remove({ _id: { $in: doc.children } });
-});
 
 module.exports = Tag;

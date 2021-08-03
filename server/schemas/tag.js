@@ -9,6 +9,10 @@ const typeDefs = gql`
 		name: String
 		children: [Tag]
 	}
+	fragment TagFields on Tag {
+		_id
+		name
+	}
 	extend type Query {
 		tags: [Tag]
 		tag(id: ID!): Tag

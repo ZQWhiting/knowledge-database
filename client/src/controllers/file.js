@@ -1,36 +1,28 @@
 import gql from 'graphql-tag';
 
-export const CREATE_TAG = gql`
-	mutation createTag($name: String!, $parent: ID) {
-		createTag(name: $name, parent: $parent) {
+export const GET_ALL_FILES = gql`
+	query files {
+		allFiles {
 			_id
 			name
-			parent {
-				_id
+			type
+			content
+			tags {
+				name
 			}
 		}
 	}
 `;
 
-export const UPDATE_TAG = gql`
-	mutation updateTag($id: ID!, $name: String, $parent: ID) {
-		updateTag(id: $id, name: $name, parent: $parent) {
+export const GET_TAGGED_FILES = gql`
+	query tagFiles($query: [ID]) {
+		tagsFiles(query: $query) {
 			_id
 			name
-			parent {
-				_id
-			}
-		}
-	}
-`;
-
-export const DELETE_TAG = gql`
-	mutation deleteTag($id: ID!) {
-		deleteTag(id: $id) {
-			_id
-			name
-			parent {
-				_id
+			type
+			content
+			tags {
+				name
 			}
 		}
 	}

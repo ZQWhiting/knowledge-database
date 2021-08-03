@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { CREATE_TAG } from '../utils/mutations';
+import { CREATE_TAG } from '../controllers/tag';
 
 function TagForm() {
 	const [name, setName] = useState('');

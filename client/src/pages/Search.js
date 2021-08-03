@@ -1,9 +1,9 @@
-import TagForm from '../components/TagForm';
+import CreateTag from '../components/CreateTag/';
 
 function Search() {
 	return (
 		<>
-			<TagForm></TagForm>
+			<CreateTag></CreateTag>
 		</>
 	);
 }

@@ -1,4 +1,5 @@
 const { File, Tag } = require('../models');
+const { UserInputError } = require('apollo-server-express');
 
 const resolvers = {
 	Query: {
@@ -34,10 +35,15 @@ const resolvers = {
 				{ new: true }
 			);
 
+			if (!tag) throw new UserInputError('No match for ID');
+
 			return await Tag.populate(tag, { path: 'parent' });
 		},
 		deleteTag: async (p, { id }) => {
 			const tag = await Tag.findByIdAndDelete(id);
+
+			if (!tag) throw new UserInputError('No match for ID');
+
 			await Tag.updateMany({ parent: tag._id }, { parent: tag.parent });
 
 			return tag;
@@ -51,10 +57,15 @@ const resolvers = {
 			const file = await File.findByIdAndUpdate(input.id, input, {
 				new: true,
 			}).populate('tags');
+
+			if (!file) throw new UserInputError('No match for ID');
+
 			return file;
 		},
 		deleteFile: async (p, { id }) => {
 			const file = await File.findByIdAndDelete(id).populate('tags');
+
+			if (!file) throw new UserInputError('No match for ID');
 
 			return file;
 		},

@@ -9,23 +9,19 @@ const typeDefs = gql`
 		name: String
 		children: [Tag]
 	}
-	fragment TagFields on Tag {
-		_id
-		name
-	}
 	extend type Query {
 		tags: [Tag]
 		tag(id: ID!): Tag
 	}
 	extend type Mutation {
-		createTag(name: String!): Tag
+		createTag(name: String!, parent_id: ID): Tag
 		updateTag(id: ID!, name: String, children: [ID]): Tag
 		deleteTag(id: ID!): Tag
 	}
 `;
 const resolvers = {
 	Query: {
-		tags: async () => Tag.find(),
+		tags: async () => Tag.find().populate(nested_populate('children', 5)),
 		tag: async (p, { id }) => {
 			const tag = await Tag.findById(id);
 
@@ -35,10 +31,13 @@ const resolvers = {
 		},
 	},
 	Mutation: {
-		createTag: async (parent, input) => {
-			const tag = await Tag.create(input);
+		createTag: async (parent, { name, parent_id }) => {
+			const tag = await Tag.create({ name });
+			await Tag.findByIdAndUpdate(parent_id, {
+				$addToSet: { children: tag._id },
+			});
 
-			return await Tag.populate(tag, nested_populate('children', 5));
+			return tag;
 		},
 		updateTag: async (parent, input) => {
 			const tag = await Tag.findByIdAndUpdate(

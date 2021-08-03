@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { TAG_FIELDS } from './fragments';
 
 const recursive_tag_return = `{
 	...TagFields
@@ -17,30 +18,37 @@ const recursive_tag_return = `{
 }`;
 
 export const GET_ALL_TAGS = gql`
+	${TAG_FIELDS}
 	query tags {
 		tags ${recursive_tag_return}
 	}
 `;
 
 export const GET_TAG = gql`
+	${TAG_FIELDS}
 	query tag($id: ID!) {
 		tag(id: $id) ${recursive_tag_return}
 	}
 `;
 
 export const CREATE_TAG = gql`
-	mutation createTag($name: String!, $children: ID) {
-		createTag(name: $name, children: $children) ${recursive_tag_return}
+	${TAG_FIELDS}
+	mutation createTag($name: String!) {
+		createTag(name: $name) {
+			...TagFields
+		}
 	}
 `;
 
 export const UPDATE_TAG = gql`
+	${TAG_FIELDS}
 	mutation updateTag($id: ID!, $name: String, $children: ID) {
 		updateTag(id: $id, name: $name, children: $children) ${recursive_tag_return}
 	}
 `;
 
 export const DELETE_TAG = gql`
+	${TAG_FIELDS}
 	mutation deleteTag($id: ID!) {
 		deleteTag(id: $id) ${recursive_tag_return}
 	}

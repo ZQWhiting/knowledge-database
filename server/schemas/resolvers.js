@@ -3,24 +3,20 @@ const { UserInputError } = require('apollo-server-express');
 
 const resolvers = {
 	Query: {
-		allTags: async () => {
-			const tags = await Tag.find();
-
-			return tags;
+		tags: async () => Tag.find(),
+		tag: async (p, { id }) => {
+			const tag = await Tag.findById(id);
+			if (!tag) throw new UserInputError('No match for ID');
+			return tag;
 		},
-		allFiles: async () => {
-			const files = await File.find().populate('tags');
-
-			return files;
+		files: async () => File.find().populate('tags'),
+		file: async (p, { id }) => {
+			const file = await File.findById(id).populate('tags');
+			if (!file) throw new UserInputError('No match for ID');
+			return file;
 		},
-		tagsFiles: async (p, { query }) => {
-			const files = await File.find()
-				.where('tags')
-				.all(query)
-				.populate('tags');
-
-			return files;
-		},
+		taggedFiles: async (p, { query }) =>
+			await File.find().where('tags').all(query).populate('tags'),
 	},
 	Mutation: {
 		createTag: async (p, input) => {

@@ -1,4 +1,19 @@
-const typeDefs = require('./typeDefs');
-const resolvers = require('./resolvers');
+const { merge } = require('lodash');
+const { resolvers: fileResolvers, typeDefs: fileTypeDefs } = require('./tag');
+const { resolvers: tagResolvers, typeDefs: tagTypeDefs } = require('./file');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
 
-module.exports = { typeDefs, resolvers };
+const typeDef = `
+    type Query {
+        _empty: String
+    }
+    type Mutation {
+        _empty: String
+    }
+`;
+const resolvers = {};
+
+module.exports = makeExecutableSchema({
+	typeDefs: [typeDef, fileTypeDefs, tagTypeDefs],
+	resolvers: merge(resolvers, fileResolvers, tagResolvers),
+});

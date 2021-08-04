@@ -22,7 +22,6 @@ function CreateTag({ id = null }) {
 			console.error(e.message);
 		},
 		update: (cache, { data: { createTag } }) => {
-			console.log(createTag)
 			const newTagRef = cache.writeFragment({
 				data: createTag,
 				fragment: gql`
@@ -54,6 +53,9 @@ function CreateTag({ id = null }) {
 					},
 				});
 			}
+		},
+		onQueryUpdated(observableQuery) {
+			return observableQuery.refetch();
 		},
 	});
 

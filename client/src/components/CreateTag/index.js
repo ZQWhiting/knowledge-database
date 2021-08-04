@@ -54,9 +54,6 @@ function CreateTag({ id = null }) {
 				});
 			}
 		},
-		onQueryUpdated(observableQuery) {
-			return observableQuery.refetch();
-		},
 	});
 
 	const submitInput = () => {

@@ -62,6 +62,14 @@ export const UPDATE_TAG = gql`
 export const DELETE_TAG = gql`
 	${TAG_FIELDS}
 	mutation deleteTag($id: ID!) {
-		deleteTag(id: $id) ${recursive_tag_return}
+		deleteTag(id: $id) {
+			...TagFields
+			parent {
+				_id
+			}
+			children {
+				_id
+			}
+		}
 	}
 `;

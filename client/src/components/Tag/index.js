@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import CreateTag from '../CreateTag';
 import TagList from '../TagList';
+import DeleteTag from '../DeleteTag';
 
 function Tag({ tag }) {
 	const [open, setOpen] = useState(false);
@@ -18,6 +19,7 @@ function Tag({ tag }) {
 				<>
 					{!!tag.children.length && <TagList tags={tag.children} />}
 					<CreateTag id={tag._id} />
+					<DeleteTag id={tag._id} />
 				</>
 			)}
 		</div>

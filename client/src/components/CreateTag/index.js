@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { gql, useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { CREATE_TAG } from '../../controllers/tag';
@@ -11,6 +11,7 @@ function CreateTag({ id = null }) {
 	const [inputError, setInputError] = useState(false);
 	const [name, setName] = useState('');
 	const [createTag] = useMutation(CREATE_TAG, {
+		variables: { name: name.trim(), parent_id: id },
 		onCompleted: () => {
 			console.log('Tag successfully saved.');
 			setName('');
@@ -20,7 +21,40 @@ function CreateTag({ id = null }) {
 			setInputError(true);
 			console.error(e.message);
 		},
-		variables: { name: name.trim(), parent_id: id },
+		update: (cache, { data: { createTag } }) => {
+			console.log(createTag)
+			const newTagRef = cache.writeFragment({
+				data: createTag,
+				fragment: gql`
+					fragment newTag on Tag {
+						_id
+						name
+						parent {
+							_id
+							name
+						}
+					}
+				`,
+			});
+			if (id) {
+				cache.modify({
+					id: cache.identify(createTag.parent),
+					fields: {
+						children(cachedChildren) {
+							return [...cachedChildren, newTagRef];
+						},
+					},
+				});
+			} else {
+				cache.modify({
+					fields: {
+						tags(cachedTags) {
+							return [...cachedTags, newTagRef];
+						},
+					},
+				});
+			}
+		},
 	});
 
 	const submitInput = () => {
@@ -33,7 +67,7 @@ function CreateTag({ id = null }) {
 	};
 
 	return (
-		<div className={classNames(id && 'tab')}>
+		<div className={classNames('tab')}>
 			{active ? (
 				<input
 					onBlur={submitInput}

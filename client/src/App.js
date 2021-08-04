@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider, InMemoryCache } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 
 import Search from './pages/Search';
 
 const client = new ApolloClient({
 	uri: '/graphql',
+	cache: new InMemoryCache(),
 });
 
 function App() {

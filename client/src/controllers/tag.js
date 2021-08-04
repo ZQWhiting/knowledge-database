@@ -42,6 +42,12 @@ export const CREATE_TAG = gql`
 	mutation createTag($name: String!, $parent_id: ID) {
 		createTag(name: $name, parent_id: $parent_id) {
 			...TagFields
+			parent {
+				_id
+			}
+			children {
+				_id
+			}
 		}
 	}
 `;

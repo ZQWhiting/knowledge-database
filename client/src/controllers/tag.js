@@ -52,10 +52,10 @@ export const CREATE_TAG = gql`
 	}
 `;
 
-export const UPDATE_TAG = gql`
+export const UPDATE_TAG_NAME = gql`
 	${TAG_FIELDS}
-	mutation updateTag($_id: ID!, $name: String, $children: [ID]) {
-		updateTag(_id: $_id, name: $name, children: $children) ${recursive_tag_return}
+	mutation updateTagName($_id: ID!, $name: String) {
+		updateTagName(_id: $_id, name: $name) ${recursive_tag_return}
 	}
 `;
 

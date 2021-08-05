@@ -1,12 +1,12 @@
 import { useMutation } from '@apollo/react-hooks';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { UPDATE_TAG } from '../../controllers/tag';
+import { UPDATE_TAG_NAME } from '../../controllers/tag';
 
 function UpdateTag({ setUpdateFormOpen, tag }) {
 	const [name, setName] = useState(tag.name);
 	const [inputError, setInputError] = useState(false);
-	const [updateTag] = useMutation(UPDATE_TAG, {
+	const [updateTag] = useMutation(UPDATE_TAG_NAME, {
 		variables: { ...tag, name: name.trim() },
 		onCompleted: () => {
 			console.log('Tag successfully updated.');
@@ -17,12 +17,12 @@ function UpdateTag({ setUpdateFormOpen, tag }) {
 			setInputError(true);
 			console.error(e.message);
 		},
-		update: (cache, { data: { updateTag } }) => {
+		update: (cache, { data: { updateTagName } }) => {
 			cache.modify({
-				id: cache.identify(updateTag),
+				id: cache.identify(updateTagName),
 				fields: {
 					name(cachedName) {
-						return updateTag.name;
+						return updateTagName.name;
 					},
 				},
 			});

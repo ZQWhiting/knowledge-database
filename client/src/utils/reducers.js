@@ -7,7 +7,7 @@ export const reducer = (state, action) => {
 		case ACTIVATE_TAG:
 			return {
 				...state,
-				activatedTags: [...state.activatedTags, action.tag],
+				activatedTags: [...state.activatedTags, action.id],
 			};
 		case DEACTIVATE_TAG:
 			return {

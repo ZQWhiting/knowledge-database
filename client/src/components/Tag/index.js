@@ -5,10 +5,31 @@ import CreateTag from '../CreateTag';
 import TagList from '../TagList';
 import DeleteTag from '../DeleteTag';
 import UpdateTag from '../UpdateTag';
+import { useStoreContext } from '../../utils/store';
+import { ACTIVATE_TAG, DEACTIVATE_TAG } from '../../utils/actions';
 
 function Tag({ tag }) {
+	const [state, dispatch] = useStoreContext();
 	const [childrenOpen, setChildrenOpen] = useState(false);
 	const [updateFormOpen, setUpdateFormOpen] = useState(false);
+	const [checkboxValue, setCheckboxValue] = useState(
+		state.activatedTags.includes(tag._id)
+	);
+
+	const onCheckChange = () => {
+		if (checkboxValue) {
+			dispatch({
+				type: DEACTIVATE_TAG,
+				id: tag._id,
+			});
+		} else {
+			dispatch({
+				type: ACTIVATE_TAG,
+				id: tag._id,
+			});
+		}
+		setCheckboxValue(!checkboxValue);
+	};
 	return (
 		<div key={tag._id}>
 			<div>
@@ -27,6 +48,13 @@ function Tag({ tag }) {
 						{tag.name}
 					</span>
 				)}
+				<span>
+					<input
+						type='checkbox'
+						checked={checkboxValue}
+						onChange={onCheckChange}
+					/>
+				</span>
 			</div>
 			{childrenOpen && (
 				<>

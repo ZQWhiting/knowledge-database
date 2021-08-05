@@ -32,8 +32,8 @@ export const GET_TAGS = gql`
 
 export const GET_TAG = gql`
 	${TAG_FIELDS}
-	query tag($id: ID!) {
-		tag(id: $id) ${recursive_tag_return}
+	query tag($_id: ID!) {
+		tag(_id: $_id) ${recursive_tag_return}
 	}
 `;
 
@@ -54,15 +54,15 @@ export const CREATE_TAG = gql`
 
 export const UPDATE_TAG = gql`
 	${TAG_FIELDS}
-	mutation updateTag($id: ID!, $name: String, $children: ID) {
-		updateTag(id: $id, name: $name, children: $children) ${recursive_tag_return}
+	mutation updateTag($_id: ID!, $name: String, $children: [ID]) {
+		updateTag(_id: $_id, name: $name, children: $children) ${recursive_tag_return}
 	}
 `;
 
 export const DELETE_TAG = gql`
 	${TAG_FIELDS}
-	mutation deleteTag($id: ID!) {
-		deleteTag(id: $id) {
+	mutation deleteTag($_id: ID!) {
+		deleteTag(_id: $_id) {
 			...TagFields
 			parent {
 				_id

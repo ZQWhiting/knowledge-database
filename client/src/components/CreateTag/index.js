@@ -61,10 +61,6 @@ function CreateTag({ id = null }) {
 		else setActive(false);
 	};
 
-	const activateForm = () => {
-		setActive(true);
-	};
-
 	return (
 		<div className={classNames('tab')}>
 			{active ? (
@@ -86,7 +82,7 @@ function CreateTag({ id = null }) {
 				<FontAwesomeIcon
 					icon={faPlusCircle}
 					className={classNames('add-tag-btn')}
-					onClick={activateForm}
+					onClick={() => setActive(true)}
 				/>
 			)}
 		</div>

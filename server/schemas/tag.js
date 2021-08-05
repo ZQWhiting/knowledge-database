@@ -12,12 +12,12 @@ const typeDefs = gql`
 	extend type Query {
 		allTags: [Tag]
 		tags(parent_id: ID): [Tag]
-		tag(id: ID!): Tag
+		tag(_id: ID!): Tag
 	}
 	extend type Mutation {
 		createTag(name: String!, parent_id: ID): Tag
-		updateTag(id: ID!, name: String, children: [ID], parent: ID): Tag
-		deleteTag(id: ID!): Tag
+		updateTag(_id: ID!, name: String, children: [ID], parent: ID): Tag
+		deleteTag(_id: ID!): Tag
 	}
 `;
 const resolvers = {
@@ -28,12 +28,12 @@ const resolvers = {
 			Tag.find({ parent: parent_id }).populate(
 				nested_populate('children', 5)
 			),
-		tag: async (p, { id }) => {
-			const tag = await Tag.findById(id);
+		tag: async (p, { _id }) => {
+			const tag = await Tag.findById(_id);
 
 			if (!tag) throw new UserInputError('No match for ID');
 
-			return tag;
+			return Tag.populate(tag, nested_populate('children', 5));
 		},
 	},
 	Mutation: {
@@ -47,7 +47,7 @@ const resolvers = {
 		},
 		updateTag: async (parent, input) => {
 			const tag = await Tag.findByIdAndUpdate(
-				input.id,
+				input._id,
 				{ $set: input },
 				{ new: true }
 			);
@@ -56,8 +56,8 @@ const resolvers = {
 
 			return await Tag.populate(tag, nested_populate('children', 5));
 		},
-		deleteTag: async (parent, { id }) => {
-			const tag = await Tag.findById(id);
+		deleteTag: async (parent, { _id }) => {
+			const tag = await Tag.findById(_id);
 			if (!tag) throw new UserInputError('No match for ID');
 
 			tag.deleteOne();

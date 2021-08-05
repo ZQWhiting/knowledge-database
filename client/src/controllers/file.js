@@ -36,14 +36,14 @@ export const CREATE_FILE = gql`
 export const UPDATE_FILE = gql`
 	${FILE_FIELDS}
 	mutation updateFile(
-		$id: ID!
+		$_id: ID!
 		$name: String
 		$type: String
 		$content: String
 		$tags: [ID]
 	) {
 		updateFile(
-			id: $id
+			_id: $_id
 			name: $name
 			type: $type
 			content: $content
@@ -56,8 +56,8 @@ export const UPDATE_FILE = gql`
 
 export const DELETE_FILE = gql`
 	${FILE_FIELDS}
-	mutation deleteFile($id: ID!) {
-		deleteFile(id: $id) {
+	mutation deleteFile($_id: ID!) {
+		deleteFile(_id: $_id) {
 			...FileFields
 		}
 	}

@@ -4,18 +4,31 @@ import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import CreateTag from '../CreateTag';
 import TagList from '../TagList';
 import DeleteTag from '../DeleteTag';
+import UpdateTag from '../UpdateTag';
 
 function Tag({ tag }) {
-	const [open, setOpen] = useState(false);
+	const [childrenOpen, setChildrenOpen] = useState(false);
+	const [updateFormOpen, setUpdateFormOpen] = useState(false);
 	return (
 		<div key={tag._id}>
 			<div>
-				<span onClick={() => setOpen(!open)}>
-					<FontAwesomeIcon icon={open ? faAngleUp : faAngleDown} />
+				<span onClick={() => setChildrenOpen(!childrenOpen)}>
+					<FontAwesomeIcon
+						icon={childrenOpen ? faAngleUp : faAngleDown}
+					/>
 				</span>
-				{tag.name}
+				{updateFormOpen ? (
+					<UpdateTag
+						setUpdateFormOpen={setUpdateFormOpen}
+						tag={tag}
+					/>
+				) : (
+					<span onDoubleClick={() => setUpdateFormOpen(true)}>
+						{tag.name}
+					</span>
+				)}
 			</div>
-			{open && (
+			{childrenOpen && (
 				<>
 					{!!tag.children.length && <TagList tags={tag.children} />}
 					<CreateTag id={tag._id} />

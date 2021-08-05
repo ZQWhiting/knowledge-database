@@ -17,7 +17,7 @@ const typeDefs = gql`
 	}
 	extend type Query {
 		files: [File]
-		file(id: ID!): File
+		file(_id: ID!): File
 		taggedFiles(query: [ID]): [File]
 	}
 	extend type Mutation {
@@ -28,21 +28,21 @@ const typeDefs = gql`
 			tags: [ID]
 		): File
 		updateFile(
-			id: ID!
+			_id: ID!
 			name: String
 			type: String
 			content: String
 			tags: [ID]
 		): File
-		deleteFile(id: ID!): File
+		deleteFile(_id: ID!): File
 	}
 `;
 
 const resolvers = {
 	Query: {
 		files: async () => File.find().populate('tags'),
-		file: async (parent, { id }) => {
-			const file = await File.findById(id).populate('tags');
+		file: async (parent, { _id }) => {
+			const file = await File.findById(_id).populate('tags');
 			if (!file) throw new UserInputError('No match for ID');
 			return file;
 		},
@@ -54,7 +54,7 @@ const resolvers = {
 			await File.create(input).populate('tags'),
 
 		updateFile: async (parent, input) => {
-			const file = await File.findByIdAndUpdate(input.id, input, {
+			const file = await File.findByIdAndUpdate(input._id, input, {
 				new: true,
 			});
 
@@ -62,8 +62,8 @@ const resolvers = {
 
 			return File.populate(file, { path: 'tags' });
 		},
-		deleteFile: async (parent, { id }) => {
-			const file = await File.findByIdAndDelete(id).populate('tags');
+		deleteFile: async (parent, { _id }) => {
+			const file = await File.findByIdAndDelete(_id).populate('tags');
 
 			if (!file) throw new UserInputError('No match for ID');
 

@@ -1,0 +1,2 @@
+export const ACTIVATE_TAG = 'ACTIVATE_TAG';
+export const DEACTIVATE_TAG = 'DEACTIVATE_TAG';

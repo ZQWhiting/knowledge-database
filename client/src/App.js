@@ -4,6 +4,8 @@ import ApolloClient from 'apollo-boost';
 
 import Search from './pages/Search';
 
+import { StoreProvider } from './utils/store';
+
 const client = new ApolloClient({
 	uri: '/graphql',
 	cache: new InMemoryCache(),
@@ -13,10 +15,12 @@ function App() {
 	return (
 		<ApolloProvider client={client}>
 			<Router>
-				<Switch>
-					{/* <Route exact path='/' component={} /> */}
-					<Route exact path='/' component={Search} />
-				</Switch>
+				<StoreProvider>
+					<Switch>
+						{/* <Route exact path='/' component={} /> */}
+						<Route exact path='/' component={Search} />
+					</Switch>
+				</StoreProvider>
 			</Router>
 		</ApolloProvider>
 	);

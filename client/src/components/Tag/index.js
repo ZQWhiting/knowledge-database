@@ -7,6 +7,8 @@ import DeleteTag from '../DeleteTag';
 import UpdateTag from '../UpdateTag';
 import { useStoreContext } from '../../utils/store';
 import { ACTIVATE_TAG, DEACTIVATE_TAG } from '../../utils/actions';
+import './style.scss';
+import classNames from 'classnames';
 
 function Tag({ tag }) {
 	const [state, dispatch] = useStoreContext();
@@ -55,13 +57,15 @@ function Tag({ tag }) {
 						onChange={onCheckChange}
 					/>
 				</span>
+				<span>
+					<DeleteTag name={tag.name} _id={tag._id} />
+				</span>
 			</div>
 			{childrenOpen && (
-				<>
+				<div className={classNames('tab')}>
 					{!!tag.children.length && <TagList tags={tag.children} />}
-					<CreateTag id={tag._id} />
-					<DeleteTag id={tag._id} />
-				</>
+					<CreateTag parent_id={tag._id} />
+				</div>
 			)}
 		</div>
 	);

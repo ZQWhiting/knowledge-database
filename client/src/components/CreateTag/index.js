@@ -6,12 +6,12 @@ import { CREATE_TAG } from '../../controllers/tag';
 import classNames from 'classnames';
 import './style.scss';
 
-function CreateTag({ id = null }) {
+function CreateTag({ parent_id = null }) {
 	const [active, setActive] = useState(false);
 	const [inputError, setInputError] = useState(false);
 	const [name, setName] = useState('');
 	const [createTag] = useMutation(CREATE_TAG, {
-		variables: { name: name.trim(), parent_id: id },
+		variables: { name: name.trim(), parent_id },
 		onCompleted: () => {
 			console.log('Tag successfully saved.');
 			setName('');
@@ -35,7 +35,7 @@ function CreateTag({ id = null }) {
 					}
 				`,
 			});
-			if (id) {
+			if (parent_id) {
 				cache.modify({
 					id: cache.identify(createTag.parent),
 					fields: {
@@ -62,7 +62,7 @@ function CreateTag({ id = null }) {
 	};
 
 	return (
-		<div className={classNames('tab')}>
+		<span>
 			{active ? (
 				<input
 					onBlur={submitInput}
@@ -85,7 +85,7 @@ function CreateTag({ id = null }) {
 					onClick={() => setActive(true)}
 				/>
 			)}
-		</div>
+		</span>
 	);
 }
 

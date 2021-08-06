@@ -2,11 +2,10 @@ import { useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DELETE_TAG } from '../../controllers/tag';
-import classNames from 'classnames';
 
-function DeleteTag({ id = null }) {
+function DeleteTag({ _id, name }) {
 	const [deleteTag] = useMutation(DELETE_TAG, {
-		variables: { id },
+		variables: { _id },
 		onCompleted: () => {
 			console.log('Tag successfully deleted.');
 		},
@@ -43,15 +42,15 @@ function DeleteTag({ id = null }) {
 
 	const confirmDelete = () => {
 		const response = window.confirm(
-			'Are you sure you want to delete? This operation will delete all children tags.'
+			`Are you sure you want to delete ${name}? This operation will delete all children tags.`
 		);
 		if (response) deleteTag();
 	};
 
 	return (
-		<div className={classNames('tab')} onClick={confirmDelete}>
+		<span onClick={confirmDelete}>
 			<FontAwesomeIcon icon={faTrash} />
-		</div>
+		</span>
 	);
 }
 

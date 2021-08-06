@@ -6,27 +6,49 @@ import TagList from '../TagList';
 import DeleteTag from '../DeleteTag';
 import UpdateTag from '../UpdateTag';
 import { useStoreContext } from '../../utils/store';
-import { ACTIVATE_TAG, DEACTIVATE_TAG } from '../../utils/actions';
+import {
+	ADD_SEARCH_TAG,
+	REMOVE_SEARCH_TAG,
+	ADD_OPEN_TAG,
+	REMOVE_OPEN_TAG,
+} from '../../utils/actions';
 import './style.scss';
 import classNames from 'classnames';
 
 function Tag({ tag }) {
 	const [state, dispatch] = useStoreContext();
-	const [childrenOpen, setChildrenOpen] = useState(false);
+	const [childrenOpen, setChildrenOpen] = useState(
+		state.openTags.includes(tag._id)
+	);
 	const [updateFormOpen, setUpdateFormOpen] = useState(false);
 	const [checkboxValue, setCheckboxValue] = useState(
-		state.activatedTags.includes(tag._id)
+		state.searchTags.includes(tag._id)
 	);
 
-	const onCheckChange = () => {
-		if (checkboxValue) {
+	const onOpen = () => {
+		if (childrenOpen) {
 			dispatch({
-				type: DEACTIVATE_TAG,
+				type: REMOVE_OPEN_TAG,
 				id: tag._id,
 			});
 		} else {
 			dispatch({
-				type: ACTIVATE_TAG,
+				type: ADD_OPEN_TAG,
+				id: tag._id,
+			});
+		}
+		setChildrenOpen(!childrenOpen);
+	};
+
+	const onCheckChange = () => {
+		if (checkboxValue) {
+			dispatch({
+				type: REMOVE_SEARCH_TAG,
+				id: tag._id,
+			});
+		} else {
+			dispatch({
+				type: ADD_SEARCH_TAG,
 				id: tag._id,
 			});
 		}
@@ -35,7 +57,7 @@ function Tag({ tag }) {
 	return (
 		<div key={tag._id}>
 			<div>
-				<span onClick={() => setChildrenOpen(!childrenOpen)}>
+				<span onClick={onOpen}>
 					<FontAwesomeIcon
 						icon={childrenOpen ? faAngleUp : faAngleDown}
 					/>

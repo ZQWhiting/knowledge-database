@@ -1,9 +1,12 @@
-import { useMutation } from '@apollo/react-hooks';
+import { gql, useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DELETE_TAG } from '../../controllers/tag';
+import { useStoreContext } from '../../utils/store';
+import { REMOVE_OPEN_TAG, REMOVE_SEARCH_TAG } from '../../utils/actions';
 
 function DeleteTag({ _id, name }) {
+	const [state, dispatch] = useStoreContext();
 	const [deleteTag] = useMutation(DELETE_TAG, {
 		variables: { _id },
 		onCompleted: () => {
@@ -13,6 +16,34 @@ function DeleteTag({ _id, name }) {
 			console.error(e.message);
 		},
 		update: (cache, { data: { deleteTag } }) => {
+			const removeStore = (tag) => {
+				const cachedTag = cache.readFragment({
+					id: cache.identify(tag),
+					fragment: gql`
+						fragment deletedTag on Tag {
+							children {
+								_id
+							}
+						}
+					`,
+				});
+				if (state.searchTags.includes(tag._id))
+					dispatch({
+						type: REMOVE_SEARCH_TAG,
+						id: tag._id,
+					});
+
+				if (state.openTags.includes(tag._id))
+					dispatch({
+						type: REMOVE_OPEN_TAG,
+						id: tag._id,
+					});
+
+				if (cachedTag.children)
+					cachedTag.children.forEach((child) => removeStore(child));
+			};
+			removeStore(deleteTag);
+
 			if (deleteTag.parent) {
 				cache.modify({
 					id: cache.identify(deleteTag.parent),

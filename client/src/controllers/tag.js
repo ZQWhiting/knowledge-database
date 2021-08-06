@@ -3,6 +3,9 @@ import { TAG_FIELDS } from './fragments';
 
 const recursive_tag_return = `{
 	...TagFields
+	parent {
+		_id
+	}
 	children {
 		...TagFields
 		children {
@@ -65,9 +68,6 @@ export const DELETE_TAG = gql`
 		deleteTag(_id: $_id) {
 			...TagFields
 			parent {
-				_id
-			}
-			children {
 				_id
 			}
 		}

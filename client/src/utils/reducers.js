@@ -1,18 +1,35 @@
 import { useReducer } from 'react';
 
-import { ACTIVATE_TAG, DEACTIVATE_TAG } from './actions';
+import {
+	ADD_SEARCH_TAG,
+	REMOVE_SEARCH_TAG,
+	ADD_OPEN_TAG,
+	REMOVE_OPEN_TAG,
+} from './actions';
 
 export const reducer = (state, action) => {
 	switch (action.type) {
-		case ACTIVATE_TAG:
+		case ADD_SEARCH_TAG:
 			return {
 				...state,
-				activatedTags: [...state.activatedTags, action.id],
+				searchTags: [...state.searchTags, action.id],
 			};
-		case DEACTIVATE_TAG:
+		case REMOVE_SEARCH_TAG:
 			return {
 				...state,
-				activatedTags: state.activatedTags.filter(
+				searchTags: state.searchTags.filter(
+					(tagId) => tagId !== action.id
+				),
+			};
+		case ADD_OPEN_TAG:
+			return {
+				...state,
+				openTags: [...state.openTags, action.id],
+			};
+		case REMOVE_OPEN_TAG:
+			return {
+				...state,
+				openTags: state.openTags.filter(
 					(tagId) => tagId !== action.id
 				),
 			};

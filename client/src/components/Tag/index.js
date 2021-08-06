@@ -20,6 +20,7 @@ function Tag({ tag }) {
 	const [childrenOpen, setChildrenOpen] = useState(
 		state.openTags.includes(tag._id)
 	);
+	const [hasChildrenField] = useState(!!tag.children);
 	const [updateFormOpen, setUpdateFormOpen] = useState(false);
 	const [checkboxValue, setCheckboxValue] = useState(
 		state.searchTags.includes(tag._id)
@@ -57,11 +58,13 @@ function Tag({ tag }) {
 	return (
 		<div key={tag._id}>
 			<div>
-				<span onClick={onOpen}>
-					<FontAwesomeIcon
-						icon={childrenOpen ? faAngleUp : faAngleDown}
-					/>
-				</span>
+				{hasChildrenField && (
+					<span onClick={onOpen}>
+						<FontAwesomeIcon
+							icon={childrenOpen ? faAngleUp : faAngleDown}
+						/>
+					</span>
+				)}
 				{updateFormOpen ? (
 					<UpdateTag
 						setUpdateFormOpen={setUpdateFormOpen}
@@ -83,7 +86,7 @@ function Tag({ tag }) {
 					<DeleteTag name={tag.name} _id={tag._id} />
 				</span>
 			</div>
-			{childrenOpen && (
+			{childrenOpen && hasChildrenField && (
 				<div className={classNames('tab')}>
 					{!!tag.children.length && <TagList tags={tag.children} />}
 					<CreateTag parent_id={tag._id} />

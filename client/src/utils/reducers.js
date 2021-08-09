@@ -5,10 +5,16 @@ import {
 	REMOVE_SEARCH_TAG,
 	ADD_OPEN_TAG,
 	REMOVE_OPEN_TAG,
+	RESET_TAGS,
 } from './actions';
 
 export const reducer = (state, action) => {
 	switch (action.type) {
+		case RESET_TAGS:
+			return {
+				...state,
+				searchTags: []
+			}
 		case ADD_SEARCH_TAG:
 			return {
 				...state,

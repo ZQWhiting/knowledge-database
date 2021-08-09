@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import CreateTag from '../CreateTag';
@@ -24,6 +24,11 @@ function Tag({ tag }) {
 	const [updateFormOpen, setUpdateFormOpen] = useState(false);
 	const [checkboxValue, setCheckboxValue] = useState(
 		state.searchTags.includes(tag._id)
+	);
+
+	useEffect(
+		() => setCheckboxValue(state.searchTags.includes(tag._id)),
+		[state.searchTags, tag._id]
 	);
 
 	const onOpen = () => {

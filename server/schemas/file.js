@@ -50,8 +50,7 @@ const resolvers = {
 			await File.find().where('tags').all(query).populate('tags'),
 	},
 	Mutation: {
-		createFile: async (parent, input) =>
-			await File.create(input).populate('tags'),
+		createFile: async (parent, input) => await File.create(input),
 
 		updateFile: async (parent, input) => {
 			const file = await File.findByIdAndUpdate(input._id, input, {

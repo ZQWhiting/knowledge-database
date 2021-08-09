@@ -13,9 +13,9 @@ function TagContainer() {
 	return (
 		<>
 			<TagList tags={data.tags} />
-			<span>
+			<div>
 				<CreateTag />
-			</span>
+			</div>
 		</>
 	);
 }

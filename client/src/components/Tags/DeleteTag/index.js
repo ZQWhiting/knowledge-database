@@ -1,9 +1,9 @@
 import { gql, useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { DELETE_TAG } from '../../controllers/tag';
-import { useStoreContext } from '../../utils/store';
-import { REMOVE_OPEN_TAG, REMOVE_SEARCH_TAG } from '../../utils/actions';
+import { DELETE_TAG } from '../../../controllers/tag';
+import { useStoreContext } from '../../../utils/store';
+import { REMOVE_OPEN_TAG, REMOVE_SEARCH_TAG } from '../../../utils/actions';
 
 function DeleteTag({ _id, name }) {
 	const [state, dispatch] = useStoreContext();

@@ -1,4 +1,4 @@
-import TagContainer from '../components/TagContainer';
+import TagContainer from '../components/Tags/TagContainer';
 
 function Search() {
 	return (

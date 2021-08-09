@@ -5,13 +5,13 @@ import CreateTag from '../CreateTag';
 import TagList from '../TagList';
 import DeleteTag from '../DeleteTag';
 import UpdateTag from '../UpdateTag';
-import { useStoreContext } from '../../utils/store';
+import { useStoreContext } from '../../../utils/store';
 import {
 	ADD_SEARCH_TAG,
 	REMOVE_SEARCH_TAG,
 	ADD_OPEN_TAG,
 	REMOVE_OPEN_TAG,
-} from '../../utils/actions';
+} from '../../../utils/actions';
 import './style.scss';
 import classNames from 'classnames';
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { gql, useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { CREATE_TAG } from '../../controllers/tag';
+import { CREATE_TAG } from '../../../controllers/tag';
 import classNames from 'classnames';
 import './style.scss';
 

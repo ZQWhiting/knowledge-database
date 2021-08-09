@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/react-hooks';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { UPDATE_TAG_NAME } from '../../controllers/tag';
+import { UPDATE_TAG_NAME } from '../../../controllers/tag';
 
 function UpdateTag({ setUpdateFormOpen, tag }) {
 	const [name, setName] = useState(tag.name);

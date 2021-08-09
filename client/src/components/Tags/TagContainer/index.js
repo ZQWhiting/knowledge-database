@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/react-hooks';
-import { GET_TAGS } from '../../controllers/tag';
+import { GET_TAGS } from '../../../controllers/tag';
 import CreateTag from '../CreateTag';
 import TagList from '../TagList';
 import './style.scss';

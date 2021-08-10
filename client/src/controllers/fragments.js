@@ -14,6 +14,7 @@ export const FILE_FIELDS = gql`
 		type
 		content
 		tags {
+			_id
 			name
 		}
 	}

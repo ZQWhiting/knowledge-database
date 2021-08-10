@@ -4,7 +4,7 @@ import { FILE_FIELDS } from './fragments';
 export const GET_ALL_FILES = gql`
 	${FILE_FIELDS}
 	query files {
-		allFiles {
+		files {
 			...FileFields
 		}
 	}
@@ -12,8 +12,8 @@ export const GET_ALL_FILES = gql`
 
 export const GET_TAGGED_FILES = gql`
 	${FILE_FIELDS}
-	query tagFiles($query: [ID]) {
-		tagsFiles(query: $query) {
+	query taggedFiles($query: [ID]) {
+		taggedFiles(query: $query) {
 			...FileFields
 		}
 	}

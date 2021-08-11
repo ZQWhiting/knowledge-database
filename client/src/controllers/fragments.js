@@ -16,6 +16,18 @@ export const FILE_FIELDS = gql`
 		tags {
 			_id
 			name
+			parent {
+				_id
+				parent {
+					_id
+					parent {
+						_id
+						parent {
+							_id
+						}
+					}
+				}
+			}
 		}
 	}
 `;

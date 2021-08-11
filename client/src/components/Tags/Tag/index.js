@@ -30,6 +30,10 @@ function Tag({ tag }) {
 		() => setCheckboxValue(state.searchTags.includes(tag._id)),
 		[state.searchTags, tag._id]
 	);
+	useEffect(
+		() => setChildrenOpen(state.openTags.includes(tag._id)),
+		[state.openTags, tag._id]
+	);
 
 	const onOpen = () => {
 		if (childrenOpen) {

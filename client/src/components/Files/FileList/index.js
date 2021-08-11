@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useStoreContext } from '../../../utils/store';
 import ShortFile from '../ShortFile';
 
-function FileList({ files }) {
+function FileList({ files, setActiveFile }) {
 	const [state] = useStoreContext();
 	const [filteredFiles, setFilteredFiles] = useState(filterHandler(files));
 
@@ -14,7 +14,11 @@ function FileList({ files }) {
 	return (
 		<>
 			{filteredFiles.map((file) => (
-				<ShortFile key={file._id} file={file} />
+				<ShortFile
+					key={file._id}
+					file={file}
+					setActiveFile={setActiveFile}
+				/>
 			))}
 		</>
 	);

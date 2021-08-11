@@ -4,6 +4,7 @@ import { CREATE_FILE, UPDATE_FILE } from '../../../controllers/file';
 import { useStoreContext } from '../../../utils/store';
 import { RESET_TAGS } from '../../../utils/actions';
 import './style.scss';
+import DeleteFile from '../DeleteFile';
 
 function PostFile({ file = null, setActiveFile }) {
 	const [content, setContent] = useState(file ? file.content : '');
@@ -73,6 +74,14 @@ function PostFile({ file = null, setActiveFile }) {
 				name='content'
 			></textarea>
 			<button type='submit'>submit</button>
+			{file && (
+				<DeleteFile
+					file={file}
+					setName={setName}
+					setContent={setContent}
+					setActiveFile={setActiveFile}
+				/>
+			)}
 		</form>
 	);
 }

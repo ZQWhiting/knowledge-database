@@ -17,8 +17,9 @@ function PostFile({ file = null, setActiveFile }) {
 		setContent(file ? file.content : '');
 	}, [file]);
 
-	const [createfile] = useMutation(CREATE_FILE, {
+	const [postFile] = useMutation(file ? UPDATE_FILE : CREATE_FILE, {
 		variables: {
+			_id: file?._id || null,
 			name: name,
 			type: 'md',
 			content: content,
@@ -28,47 +29,36 @@ function PostFile({ file = null, setActiveFile }) {
 			console.error(err);
 		},
 		onCompleted: () => {
-			console.log('File successfuly Saved');
+			console.log(`File successfuly ${file ? 'UPDATED' : 'SAVED'}`);
+			if (file) {
+				setActiveFile(null);
+			} else {
+				setName('');
+				setContent('');
+			}
 			dispatch({ type: RESET_TAGS });
-			setActiveFile(null);
 		},
 		update: (cache, { data: { createFile } }) => {
-			const newFileRef = cache.writeFragment({
-				data: createFile,
-				fragment: FILE_FIELDS,
-			});
-			cache.modify({
-				fields: {
-					files(cachedFiles) {
-						return [...cachedFiles, newFileRef];
+			if (!file) {
+				const newFileRef = cache.writeFragment({
+					data: createFile,
+					fragment: FILE_FIELDS,
+				});
+				cache.modify({
+					fields: {
+						files(cachedFiles) {
+							return [...cachedFiles, newFileRef];
+						},
 					},
-				},
-			});
-		},
-	});
-	const [updateFile] = useMutation(UPDATE_FILE, {
-		variables: {
-			_id: file?._id,
-			name: name,
-			type: 'md',
-			content: content,
-			tags: state.searchTags,
-		},
-		onError: (err) => {
-			console.error(err);
-		},
-		onCompleted: () => {
-			console.log('File successfuly Updated');
-			dispatch({ type: RESET_TAGS });
-			setActiveFile(null);
+				});
+			}
 		},
 	});
 
 	const submitHandler = (e) => {
 		e.preventDefault();
 
-		if (!file) createfile();
-		else updateFile();
+		postFile();
 	};
 	return (
 		<form onSubmit={submitHandler}>

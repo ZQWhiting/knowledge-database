@@ -3,9 +3,6 @@ import { TAG_FIELDS } from './fragments';
 
 const recursive_tag_return = `{
 	...TagFields
-	parent {
-		_id
-	}
 	children {
 		...TagFields
 		children {
@@ -26,10 +23,10 @@ export const GET_ALL_TAGS = gql`
 		allTags ${recursive_tag_return}
 	}
 `;
-export const GET_TAGS = gql`
+export const GET_TAG_LIST = gql`
 	${TAG_FIELDS}
-	query tags($parent_id: ID) {
-		tags(parent_id: $parent_id) ${recursive_tag_return}
+	query tagList($parent_id: ID) {
+		tagList(parent_id: $parent_id) ${recursive_tag_return}
 	}
 `;
 
@@ -39,6 +36,13 @@ export const GET_TAG = gql`
 		tag(_id: $_id) ${recursive_tag_return}
 	}
 `;
+
+export const GET_TAGS = gql`
+	${TAG_FIELDS}
+	query tags($_ids: [ID]) {
+		tags(_ids: $_ids) ${recursive_tag_return}
+	}
+`
 
 export const CREATE_TAG = gql`
 	${TAG_FIELDS}

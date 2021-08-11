@@ -11,8 +11,9 @@ const typeDefs = gql`
 	}
 	extend type Query {
 		allTags: [Tag]
-		tags(parent_id: ID): [Tag]
 		tag(_id: ID!): Tag
+		tagList(parent_id: ID): [Tag]
+		tags(_ids: [ID]): [Tag]
 	}
 	extend type Mutation {
 		createTag(name: String!, parent_id: ID): Tag
@@ -24,8 +25,12 @@ const resolvers = {
 	Query: {
 		allTags: async () =>
 			Tag.find().populate(nested_populate('children', 5)),
-		tags: async (p, { parent_id = null }) =>
-			Tag.find({ parent: parent_id }).populate(
+		tagList: async (p, { parent_id = null }) =>
+			Tag.find({ parent: parent_id })
+				.populate(nested_populate('children', 5))
+				.populate(nested_populate('parent', 5)),
+		tags: async (p, { _ids }) =>
+			Tag.find({ _id: { $in: _ids } }).populate(
 				nested_populate('children', 5)
 			),
 		tag: async (p, { _id }) => {

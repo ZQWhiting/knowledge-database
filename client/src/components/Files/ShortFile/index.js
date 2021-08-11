@@ -1,13 +1,26 @@
+import { useApolloClient } from '@apollo/react-hooks';
+import { TAG_PARENTS } from '../../../controllers/fragments';
 import { SET_TAGS } from '../../../utils/actions';
 import { useStoreContext } from '../../../utils/store';
 import DeleteFile from '../DeleteFile';
 
 function ShortFile({ file, setActiveFile }) {
 	const [, dispatch] = useStoreContext();
-	const activeHandler = () => {
+	const client = useApolloClient();
+	const activeHandler = async () => {
+		const tags = file.tags
+			.map((tag) => {
+				const data = client.readFragment({
+					id: client.cache.identify(tag),
+					fragment: TAG_PARENTS,
+				});
+				return data;
+			})
+			.filter((tag) => tag);
+
 		dispatch({
 			type: SET_TAGS,
-			tags: file.tags,
+			tags: tags,
 		});
 		setActiveFile(file);
 	};

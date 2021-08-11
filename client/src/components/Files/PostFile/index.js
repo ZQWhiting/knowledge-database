@@ -5,6 +5,7 @@ import { useStoreContext } from '../../../utils/store';
 import { RESET_TAGS } from '../../../utils/actions';
 import './style.scss';
 import DeleteFile from '../DeleteFile';
+import { FILE_FIELDS } from '../../../controllers/fragments';
 
 function PostFile({ file = null, setActiveFile }) {
 	const [content, setContent] = useState(file ? file.content : '');
@@ -32,6 +33,19 @@ function PostFile({ file = null, setActiveFile }) {
 			setContent('');
 			dispatch({ type: RESET_TAGS });
 			setActiveFile(null);
+		},
+		update: (cache, { data: { createFile } }) => {
+			const newFileRef = cache.writeFragment({
+				data: createFile,
+				fragment: FILE_FIELDS,
+			});
+			cache.modify({
+				fields: {
+					files(cachedFiles) {
+						return [...cachedFiles, newFileRef];
+					},
+				},
+			});
 		},
 	});
 	const [updateFile] = useMutation(UPDATE_FILE, {

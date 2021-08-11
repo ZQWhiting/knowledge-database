@@ -4,7 +4,9 @@ function FormattedFile({ file = null, content, name }) {
 	return file ? (
 		<div>
 			<div>{name}</div>
-			<ReactMarkdown>{content}</ReactMarkdown>
+			<article>
+				<ReactMarkdown>{content}</ReactMarkdown>
+			</article>
 		</div>
 	) : (
 		'pick a file'

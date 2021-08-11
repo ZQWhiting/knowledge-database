@@ -4,10 +4,14 @@ import ShortFile from '../ShortFile';
 
 function FileList({ files, setActiveFile }) {
 	const [state] = useStoreContext();
-	const [filteredFiles, setFilteredFiles] = useState(filterHandler(files));
+	const [filteredFiles, setFilteredFiles] = useState(
+		state.searchTags.length ? filterHandler(files) : files
+	);
 
 	useEffect(() => {
-		setFilteredFiles(filterHandler(files));
+		setFilteredFiles(
+			state.searchTags.length ? filterHandler(files) : files
+		);
 		// eslint-disable-next-line
 	}, [state.searchTags, files]);
 
@@ -27,8 +31,8 @@ function FileList({ files, setActiveFile }) {
 		return files.filter((file) => {
 			for (let i = 0; i < state.searchTags.length; i++)
 				if (file.tags.some((tag) => tag._id === state.searchTags[i]))
-					return false;
-			return true;
+					return true;
+			return false;
 		});
 	}
 }

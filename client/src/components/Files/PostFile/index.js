@@ -6,6 +6,7 @@ import { RESET_TAGS } from '../../../utils/actions';
 import './style.scss';
 import DeleteFile from '../DeleteFile';
 import { FILE_FIELDS } from '../../../controllers/fragments';
+import FormattedFile from '../FormattedFile';
 
 function PostFile({ file = null, setActiveFile }) {
 	const [content, setContent] = useState(file ? file.content : '');
@@ -61,21 +62,26 @@ function PostFile({ file = null, setActiveFile }) {
 		postFile();
 	};
 	return (
-		<form onSubmit={submitHandler}>
-			<input
-				type='text'
-				name='name'
-				value={name}
-				onChange={(e) => setName(e.target.value)}
-			></input>
-			<textarea
-				value={content}
-				onChange={(e) => setContent(e.target.value)}
-				name='content'
-			></textarea>
-			<button type='submit'>submit</button>
-			{file && <DeleteFile file={file} setActiveFile={setActiveFile} />}
-		</form>
+		<>
+			<form onSubmit={submitHandler}>
+				<input
+					type='text'
+					name='name'
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+				></input>
+				<textarea
+					value={content}
+					onChange={(e) => setContent(e.target.value)}
+					name='content'
+				></textarea>
+				<button type='submit'>submit</button>
+				{file && (
+					<DeleteFile file={file} setActiveFile={setActiveFile} />
+				)}
+			</form>
+			<FormattedFile file={file} content={content} name={name} />
+		</>
 	);
 }
 

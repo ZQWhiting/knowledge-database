@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { GET_ALL_FILES } from '../../../controllers/file';
 import PostFile from '../PostFile';
 import FileList from '../FileList';
-import FormattedFile from '../FormattedFile';
 
 function FileContainer() {
 	const { data, loading, error } = useQuery(GET_ALL_FILES);
@@ -17,7 +16,6 @@ function FileContainer() {
 	return (
 		<div>
 			<PostFile file={activeFile} setActiveFile={setActiveFile} />
-			<FormattedFile file={activeFile} />
 			<FileList files={files} setActiveFile={setActiveFile} />
 		</div>
 	);

@@ -1,10 +1,10 @@
 import ReactMarkdown from 'react-markdown';
 
-function FormattedFile({ file = null }) {
+function FormattedFile({ file = null, content, name }) {
 	return file ? (
 		<div>
-			<div>{file.name}</div>
-			<ReactMarkdown>{file.content}</ReactMarkdown>
+			<div>{name}</div>
+			<ReactMarkdown>{content}</ReactMarkdown>
 		</div>
 	) : (
 		'pick a file'

@@ -8,7 +8,13 @@ import { StoreProvider } from './utils/store';
 
 const client = new ApolloClient({
 	uri: '/graphql',
-	cache: new InMemoryCache(),
+	cache: new InMemoryCache({
+		typePolicies: {
+			Tag: {
+				merge: true,
+			},
+		},
+	}),
 });
 
 function App() {

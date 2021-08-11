@@ -15,19 +15,6 @@ export const FILE_FIELDS = gql`
 		content
 		tags {
 			_id
-			name
-			parent {
-				_id
-				parent {
-					_id
-					parent {
-						_id
-						parent {
-							_id
-						}
-					}
-				}
-			}
 		}
 	}
 `;

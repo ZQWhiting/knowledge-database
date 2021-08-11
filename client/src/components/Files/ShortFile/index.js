@@ -27,7 +27,6 @@ function ShortFile({ file, setActiveFile }) {
 	return (
 		<div className='short-file'>
 			<div>{file.name}</div>
-			<div>{file.content.substring(0, 15)}...</div>
 			<button onClick={activeHandler}>Set Active</button>
 			<DeleteFile file={file} />
 		</div>

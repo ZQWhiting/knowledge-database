@@ -1,5 +1,6 @@
 import { SET_TAGS } from '../../../utils/actions';
 import { useStoreContext } from '../../../utils/store';
+import DeleteFile from '../DeleteFile';
 
 function ShortFile({ file, setActiveFile }) {
 	const [, dispatch] = useStoreContext();
@@ -15,6 +16,7 @@ function ShortFile({ file, setActiveFile }) {
 			<div>{file.name}</div>
 			<div>{file.content.substring(0, 15)}...</div>
 			<button onClick={activeHandler}>Set Active</button>
+			<DeleteFile file={file} />
 		</div>
 	);
 }

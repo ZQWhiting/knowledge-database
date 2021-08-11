@@ -5,21 +5,16 @@ import { DELETE_FILE } from '../../../controllers/file';
 import { RESET_TAGS } from '../../../utils/actions';
 import { useStoreContext } from '../../../utils/store';
 
-function DeleteFile({
-	file: { _id, name },
-	setName,
-	setContent,
-	setActiveFile,
-}) {
+function DeleteFile({ file: { _id, name }, setActiveFile = null }) {
 	const [, dispatch] = useStoreContext();
 	const [deleteFile] = useMutation(DELETE_FILE, {
 		variables: { _id },
 		onCompleted: () => {
 			console.log('File successfully deleted.');
-			setName('');
-			setContent('');
-			dispatch({ type: RESET_TAGS });
-			setActiveFile(null);
+			if (setActiveFile) {
+				dispatch({ type: RESET_TAGS });
+				setActiveFile(null);
+			}
 		},
 		onError: (e) => {
 			console.error(e.message);

@@ -29,8 +29,6 @@ function PostFile({ file = null, setActiveFile }) {
 		},
 		onCompleted: () => {
 			console.log('File successfuly Saved');
-			setName('');
-			setContent('');
 			dispatch({ type: RESET_TAGS });
 			setActiveFile(null);
 		},
@@ -61,8 +59,6 @@ function PostFile({ file = null, setActiveFile }) {
 		},
 		onCompleted: () => {
 			console.log('File successfuly Updated');
-			setName('');
-			setContent('');
 			dispatch({ type: RESET_TAGS });
 			setActiveFile(null);
 		},
@@ -88,14 +84,7 @@ function PostFile({ file = null, setActiveFile }) {
 				name='content'
 			></textarea>
 			<button type='submit'>submit</button>
-			{file && (
-				<DeleteFile
-					file={file}
-					setName={setName}
-					setContent={setContent}
-					setActiveFile={setActiveFile}
-				/>
-			)}
+			{file && <DeleteFile file={file} setActiveFile={setActiveFile} />}
 		</form>
 	);
 }
